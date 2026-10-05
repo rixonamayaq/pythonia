@@ -15,7 +15,21 @@ from dataclasses import dataclass
 # 1. Comprensiones -----------------------------------------------------------
 def palabras_por_longitud(texto: str) -> dict[int, list[str]]:
     """Agrupa palabras únicas (minúsculas, sin puntuación) por longitud, ordenadas."""
-    raise NotImplementedError
+    palabras = texto.lower()
+    palabras = texto.split()
+    palabras = sorted(palabras, key=str.lower)
+    palabras_longitud = {}
+    for palabra in palabras:
+        longitud = len(palabra)
+        palabras_longitud.setdefault(longitud, []).append(palabra)
+
+    resultado = {}
+    for _, lista_palabras in palabras_longitud():
+        cantidad = len(lista_palabras)
+
+    resultado.setdefault(cantidad, []).extend(lista_palabras)
+    return dict(sorted(resultado.items()))
+    """raise NotImplementedError"""
 
 
 # 2. Colecciones -------------------------------------------------------------
@@ -44,11 +58,15 @@ class Factura:
 
     @property
     def total(self) -> float:
-        raise NotImplementedError
+        return self.subtotal + (self.iva * 100)
 
     def __post_init__(self) -> None:
         """Debe lanzar ValueError si subtotal < 0 o iva fuera de [0, 1]."""
-        raise NotImplementedError
+        if self.subtotal < 0:
+            raise ValueError("Subtotal debe ser mayor que cero.")
+        if (self.iva < 0) or (self.iva > 1):
+            raise ValueError("Iva debe estar entre 0 y 1.")
+        """raise NotImplementedError"""
 
 
 # 6. Context managers --------------------------------------------------------
